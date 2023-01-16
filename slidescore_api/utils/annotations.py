@@ -122,7 +122,7 @@ def save_shapely(annotations: ImageAnnotation, save_dir: Path) -> None:  # pylin
             except KeyError:
                 _type = annotations.annotation[ann_id]["type"].upper()
                 logger.warning(f"Unknown AnnotationType: {_type}")
-                continue
+                return
 
             is_polygon = annotation_type in (
                 AnnotationType.POLYGON,

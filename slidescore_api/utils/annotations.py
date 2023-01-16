@@ -343,6 +343,8 @@ class SlideScoreAnnotations:
         data = {}
         try:
             ann = json.loads(_row["Answer"])
+            if isinstance(ann, int) | isinstance(ann, float):
+                return None
             if len(ann) > 0:
                 # Points dont have type, only x,y; so we use that to distinguish task
                 # Code can be shortened, but is more readable this way

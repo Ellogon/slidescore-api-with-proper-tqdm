@@ -57,7 +57,7 @@ setup(
     keywords="slidescore_api",
     name="slidescore_api",
     packages=find_packages(include=["slidescore_api", "slidescore_api.*"]),
-    url="https://github.com/Ellogon/slidescore-api",
+    url="https://github.com/Ellogon/slidescore-api-proper-tqdm",
     version=version,
     zip_safe=False,
 )

@@ -117,7 +117,13 @@ def save_shapely(annotations: ImageAnnotation, save_dir: Path) -> None:  # pylin
         dump_list: list = []
         for ann_id, _ in enumerate(annotations.annotation):
             # rects are internally polygons
-            annotation_type = AnnotationType[annotations.annotation[ann_id]["type"].upper()]
+            try:
+                annotation_type = AnnotationType[annotations.annotation[ann_id]["type"].upper()]
+            except KeyError:
+                _type = annotations.annotation[ann_id]["type"].upper()
+                logger.warning(f"Unknown AnnotationType: {_type}")
+                continue
+
             is_polygon = annotation_type in (
                 AnnotationType.POLYGON,
                 AnnotationType.BRUSH,

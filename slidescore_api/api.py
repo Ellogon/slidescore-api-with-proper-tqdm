@@ -204,7 +204,7 @@ class APIClient:
         dict
             Dictionary containing the images in the study.
         """
-        response = self.perform_request("Images", {"studyid": study_id})
+        response = self.perform_request("Images", {"studyId": study_id})
         rjson = response.json()
         self.logger.info("Found %s slides with SlideScore API for study ID %s.", len(rjson), study_id)
 
@@ -239,7 +239,7 @@ class APIClient:
         filesize = image["fileSize"]
         response = self.perform_request(
             "DownloadSlide",
-            {"studyid": study_id, "imageid": image_id},
+            {"studyId": study_id, "imageID": image_id},
             method="GET",
             stream=True,
         )
@@ -291,11 +291,11 @@ class APIClient:
         List[SlideScoreResult]
             List of SlideScore results.
         """
-        optional_keys = ["question", "email", "imageid", "caseid"]
+        optional_keys = ["question", "email", "imageID", "caseid"]
         if any(_ not in optional_keys for _ in kwargs):
             raise RuntimeError(f"Expected optional keys to be any of {', '.join(optional_keys)}. Got {kwargs.keys()}.")
 
-        response = self.perform_request("Scores", {"studyid": study_id, **kwargs})
+        response = self.perform_request("Scores", {"studyId": study_id, **kwargs})
         rjson = response.json()
         for line in rjson:
             yield SlideScoreResult(line)
@@ -313,7 +313,7 @@ class APIClient:
         -------
         dict
         """
-        response = self.perform_request("GetConfig", {"studyid": study_id})
+        response = self.perform_request("GetConfig", {"studyId": study_id})
         rjson = response.json()
 
         if not rjson["success"]:
@@ -342,7 +342,7 @@ class APIClient:
         """
         results_as_row = [r.to_row() for r in results]
         sres = "\n" + "\n".join(results_as_row)
-        response = self.perform_request("UploadResults", {"studyid": study_id, "results": sres})
+        response = self.perform_request("UploadResults", {"studyId": study_id, "results": sres})
         rjson = response.json()
         if not rjson["success"]:
             raise SlideScoreErrorException(rjson["log"])
@@ -360,7 +360,7 @@ class APIClient:
         response = self.perform_request(
             "UploadASAPAnnotations",
             {
-                "imageid": image_id,
+                "imageID": image_id,
                 "questionsMap": "\n".join(key + ";" + val for key, val in questions_map.items()),
                 "user": user,
                 "annotationName": annotation_name,
@@ -386,7 +386,7 @@ class APIClient:
         dict
             Image metadata as stored in SlideScore.
         """
-        response = self.perform_request("GetImageMetadata", {"imageId": image_id}, "GET")
+        response = self.perform_request("GetImageMetadata", {"imageID": image_id}, "GET")
         rjson = response.json()
         if not rjson["success"]:
             raise SlideScoreErrorException(rjson["log"])
@@ -396,7 +396,7 @@ class APIClient:
         """Downloads ASAP annotations."""
         response = self.perform_request(
             "ExportASAPAnnotations",
-            {"imageid": image_id, "user": user, "question": question},
+            {"imageID": image_id, "user": user, "question": question},
         )
         rjson = response.json()
         if not rjson["success"]:
@@ -423,7 +423,7 @@ class APIClient:
         if self.base_url is None:
             raise RuntimeError
 
-        response = self.perform_request(f"GetTileServer?imageId={str(image_id)}", None, method="GET")
+        response = self.perform_request(f"GetTileServer?imageID={str(image_id)}", None, method="GET")
         rjson: Dict = dict(response.json())
         url_parts = "/".join(["i", str(image_id), rjson["urlPart"], "_files"])
         return (

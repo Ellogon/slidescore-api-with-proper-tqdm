@@ -291,7 +291,7 @@ class APIClient:
         List[SlideScoreResult]
             List of SlideScore results.
         """
-        optional_keys = ["question", "email", "imageID", "caseid"]
+        optional_keys = ["question", "email", "imageid", "caseid"]
         if any(_ not in optional_keys for _ in kwargs):
             raise RuntimeError(f"Expected optional keys to be any of {', '.join(optional_keys)}. Got {kwargs.keys()}.")
 

@@ -295,7 +295,7 @@ class APIClient:
         if any(_ not in optional_keys for _ in kwargs):
             raise RuntimeError(f"Expected optional keys to be any of {', '.join(optional_keys)}. Got {kwargs.keys()}.")
 
-        response = self.perform_request("Scores", {"studyId": study_id, **kwargs})
+        response = self.perform_request("Scores", {"studyId": study_id, **kwargs}, method="GET")
         rjson = response.json()
         for line in rjson:
             yield SlideScoreResult(line)

@@ -204,7 +204,7 @@ class APIClient:
         dict
             Dictionary containing the images in the study.
         """
-        response = self.perform_request("Images", {"studyId": study_id})
+        response = self.perform_request("Images", {"studyId": study_id}, method="GET")
         rjson = response.json()
         self.logger.info("Found %s slides with SlideScore API for study ID %s.", len(rjson), study_id)
 
